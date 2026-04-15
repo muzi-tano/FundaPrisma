@@ -15,6 +15,7 @@ email String @unique
 status Boolean @default (true)
 createdAt DateTime @default(now())
 updatedAt DateTime @updatedAt
+posts Post[]
 }
 
 model Post {
