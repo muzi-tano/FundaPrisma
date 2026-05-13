@@ -1,19 +1,40 @@
-
 generator client {
-  provider = "prisma-client-js"
+provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+provider = "mysql"
+url = env("DATABASE_URL")
 }
+
+enum Role {
+USER
+ADMIN
+}
+
+// Comando: npx prisma db push - cria tabela no banco de dados
+//Comando npx prisma db pull - para atualizar o schema.prisma com as tabelas do banco de dados
 
 model User {
 id Int @id @default(autoincrement())
 name String
 email String @unique
-status Boolean @default (true)
+status Boolean @default(true)
+role Role @default(USER)
 createdAt DateTime @default(now())
-updatedAt DateTime @updatedAt
-@@map("users") //Mapeia a tebala para "users"
+updateAt DateTime @updatedAt
+posts Post[]
+
+@@map("users") // Mapeia a tabela "users" no banco de dados para o modelo User
+}
+
+model Post {
+id Int @id @default(autoincrement())
+title String
+sbtitle String?
+content String
+userId Int @map("user_id") // Mapeia a coluna "user_id" no banco de dados para o campo userId
+user User @relation(fields: [userId], references: [id])
+
+@@map ("posts") // Mapeia a tabela "posts" no banco de dados
 }
