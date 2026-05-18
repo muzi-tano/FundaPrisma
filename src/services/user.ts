@@ -21,6 +21,7 @@ export const createUser = async (data: Prisma.UserCreateInput) => {
          if (error.code === 'P2002') {
             console.error('Error: Email already exists')
             return false
+         
          }
       }
    }
